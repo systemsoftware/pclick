@@ -1,0 +1,500 @@
+<head>
+    <title>💩 Clicker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple clicker game where you click to get 💩 and sell it for 💰">
+    <meta name="keywords" content="clicker, game, simple, fun, poop, money">
+    <link rel="icon" href="https://emojicdn.elk.sh/💩" type="image/x-icon">
+</head>
+
+<style>
+@keyframes a {
+0% { top: 0%; }
+100% { top: 100%; }
+}
+
+
+.circle{
+    position: fixed;
+    width: 30vh;
+    height: 30vh;
+    background-color: rgb(230, 160, 90);
+    border-radius: 100vh;
+    top: -12vh;
+}
+
+@media (min-width: 600px) {
+    .circle{
+        left: 48%;
+    }
+}
+
+@media (max-width: 600px) {
+    .particle{
+      left: 45%;
+    }
+}
+
+.circle2{
+    position: fixed;
+    bottom: -5px;
+    background:none;
+    width: 100%;
+}
+
+.two{
+left: 35%;
+}
+
+.particle {
+background-color: rgb(101, 54, 4);
+width: 30px;
+height: 50px;
+}
+
+.top{
+    z-index: 100000;
+}
+
+.bottom{
+    bottom: -50px;
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    z-index: 10000000;
+}
+
+.floor{
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 40px;
+    left: 0;
+    background-color: rgb(0, 164, 0);
+    z-index: 1000;
+}
+
+body{
+    background-color: rgb(0, 153, 255);
+}
+
+.count{
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+}
+
+#controls{
+    position: fixed;
+    top: 0;
+    right: 0;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    z-index: 1000000000;
+}
+
+*{
+  user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+#controls a{
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    text-align: center;
+    background-color: gray;
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+    font-family: Arial, Helvetica, sans-serif;
+    z-index: 4000000000;
+  }
+
+/* Basic button styles */
+button {
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 10px;
+}
+
+/* Button hover effect */
+button:hover {
+  background-color: #3e8e41;
+}
+
+/* Button active effect */
+button:active {
+  background-color: #2e7d32;
+}
+
+/* Button disabled state */
+button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+.close{
+background-color: red;
+color: white;
+width: 50%;
+}
+.close:hover{
+background-color: darkred;
+}
+
+/* General styles for input fields */
+input[type="text"], input[type="number"], select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Styles for labels */
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Styles for range inputs */
+input[type="range"] {
+  width: 100%;
+}
+
+/* Styles for checkbox inputs */
+input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+/* Styles for button */
+button {
+  padding: 0.5rem 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #3e8e41;
+}
+
+.foot{
+  position: fixed;
+  bottom: 5;
+  left: 5;
+  z-index: 10000000000;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: x-small;
+
+}
+
+.foot a{
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  text-decoration: underline;
+}
+</style>
+
+<div class="foot">
+  <a href="https://glitch.com/edit/#!/pclick?path=index.html">Source</a> | <a href="/LICENSE.txt">License</a> | <a onclick="cheats()">Cheats</a>
+</div>
+
+<div class="circle top"></div>
+<div class="circle two top"></div>
+<div class="bottom">💩</div>
+
+<div style="z-index: 100000;" class="count"></div>
+<div id="controls"> <a onclick="toggle('settings')">⚙️</a> <a onclick="toggle('shop')" id="shop_b">🛒</a>  <a onclick="sell()">🤑</a> </div>
+<div class="floor"></div>
+<div class="center" id="tutorial" style="background: none; display: block;"><br> click above to get more 💩<br> click the 🤑 to sell 💩<br> click the ⚙️ to change settings<br> click the 🛒 to buy upgrades</div>
+
+<div class="center" id="settings">
+    <h1>Settings</h1>
+    <label for="max">Max</label>
+    <input type="number" id="max" value="500">
+    <button onclick="setMax()">Save</button>
+    <br> <br>
+    <label>Reset Your Progress</label>
+    <button class="close" onclick="if(confirm('Are you sure? This will reset your progress immediately and cannot be undone.')){localStorage.clear();location.reload();}">Reset</button>
+    <br> <br>
+    <label for="lax">Laxative</label>
+    <input type="checkbox" checked id="lax" onclick="t_lax()"> Active <input checked type="checkbox" id="lax2" onclick="t_lax_2()"> Show Effect
+    <br> <br>
+    <label>Cache Page For Offline Use</label>
+    <button style="width: 50%;" id="cache" onclick="cache()">Cache</button>
+<br><br>
+    <button class="close" onclick="document.querySelector('#settings').style.display = 'none';">Close</button>
+</div>
+
+
+<div class="center" id="shop">
+    <h1>Shop</h1>
+    <button style="width: 50%;" onclick="sell()">Sell all 💩 for 💰</button>
+    <h2 id="laxtop">Laxative</h2>
+    <label>Automatically gain 💩 every second</label>
+    <button style="width: 50%;" id="laxb" onclick="lax()">Loading...</button>
+    <h2 id="inctp">Increment</h2>
+    <label>Amount of 💩 per click</label>
+    <button style="width: 50%;" id="inc" onclick="inc()">Loading...</button>
+    <br>
+<br>
+    <button class="close" onclick="document.querySelector('#shop').style.display = 'none';">Close</button>
+</div>
+
+
+<script>
+const params = new URLSearchParams(window.location.search);
+
+const update = (_amount) => {
+  document.getElementById('tutorial').style.display = 'none';
+    const clicks = parseInt(localStorage.getItem('clicks')) || 0;
+    const max = parseInt(localStorage.getItem('max')) || 500;
+    const money = parseInt(localStorage.getItem('money')) || 0;
+    const amount = parseInt(_amount) || 1;
+    console.log(amount);
+    document.querySelector('.count').innerHTML = `💩 ${clicks + 1} / ${max} 💰 ${money}`
+    document.querySelector('.bottom').style.fontSize = `${clicks + 1}px`;
+    localStorage.setItem('clicks', amount ? clicks + amount : clicks + 1);
+    if(clicks + 1 >= max){
+        localStorage.setItem('clicks', 0);
+        localStorage.setItem('money', money + clicks + 1);
+    }
+}
+
+const toggle = (type) => {
+    document.querySelector(`#${type}`).style.display = document.querySelector(`#${type}`).style.display === 'none' ? 'block' : 'none';
+}
+
+const t_lax = () => {
+    params.set('l', document.querySelector('#lax').checked);
+    location = '/?' + params.toString();
+}
+
+const t_lax_2 = () => {
+    params.set('le', document.querySelector('#lax2').checked);
+    location = '/?' + params.toString();
+}
+
+const cheats = () => {
+  const key = prompt('Waht do you want to set? (money, clicks, max, lax, increment)');
+  if(!key) return;
+  const value = prompt('What value?');
+  if(!value) return;
+  localStorage.setItem(key, value);
+  location.reload();
+}
+
+const lax = () => {
+    const money = parseInt(localStorage.getItem('money')) || 0;
+    const laxLvl = parseInt(localStorage.getItem('lax')) + 1 || 1;
+    document.getElementById('laxtop').innerHTML = `Laxative (${laxLvl})`;
+    if(money >= laxLvl * 1000){
+        localStorage.setItem('money', money - (laxLvl * 1000));
+        localStorage.setItem('lax', laxLvl);
+        document.querySelector('#lax').innerHTML = `Upgrade for ${(laxLvl + 1) * 1000} 💰`;
+        setInterval(() => {
+            params.get('le') != 'false' ? newParticle(localStorage.getItem('lax')) : update(localStorage.getItem('lax'));
+        }, 1000);
+    }else{
+        alert('Not enough 💰');
+    }
+}
+
+const inc = () => {
+    const money = parseInt(localStorage.getItem('money')) || 0;
+    const increment = parseInt(localStorage.getItem('increment')) || 1;
+    if(money >= increment * 100){
+        localStorage.setItem('money', money - (increment * 100));
+        localStorage.setItem('increment', parseInt(localStorage.getItem('increment')) + 1 || 2);
+        document.querySelector('.count').innerHTML = `💩 ${localStorage.getItem('clicks')} / ${localStorage.getItem('max') || 500} 💰 ${localStorage.getItem('money') || 0}`
+        document.getElementById('inc').innerHTML = `Upgrade for ${(parseInt(localStorage.getItem('increment')) || 1) * 100} 💰`;
+        document.getElementById('inctp').innerHTML = `Increment (${localStorage.getItem('increment') || 1})`;
+    }else{
+        alert('Not enough 💰');
+    }
+}
+
+const setMax = () => {
+    const max = document.querySelector('#max').value;
+    localStorage.setItem('max', max);
+    document.querySelector('.count').innerHTML = `💩 ${localStorage.getItem('clicks')} / ${max} 💰 ${localStorage.getItem('money') || 0}`
+}
+
+const sell = () => {
+    const clicks = parseInt(localStorage.getItem('clicks')) || 0;
+    const money = parseInt(localStorage.getItem('money')) || 0;
+    localStorage.setItem('clicks', 0);
+    localStorage.setItem('money', money + clicks);
+    document.querySelector('.bottom').style.fontSize = '0px';
+    document.querySelector('.count').innerHTML = `💩 0 / ${localStorage.getItem('max') || 500} 💰 ${money + clicks}`
+    document.querySelectorAll('.particle').forEach(e => {
+        e.remove();
+    })
+}
+
+
+if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    }, function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+function cache() {
+  if ('caches' in window) {
+    const currentPageUrl = window.location.href;
+    caches.open('offline-pages').then(cache => {
+      cache.add(currentPageUrl);
+    });
+  }
+  document.getElementById('cache').innerHTML = 'Uncache';
+  document.getElementById('cache').onclick = remcache;
+}
+
+function remcache() {
+  if ('caches' in window) {
+    const currentPageUrl = window.location.href;
+    caches.open('offline-pages').then(cache => {
+      cache.delete(currentPageUrl).then(deleted => {
+        if (deleted) {
+          console.log('Cached page removed successfully.');
+        } else {
+          console.log('Cached page not found.');
+        }
+      }).catch(error => {
+        console.error('Error removing cached page:', error);
+      });
+    });
+  }
+  document.getElementById('cache').innerHTML = 'Cache';
+  document.getElementById('cache').onclick = cache;
+}
+
+function isPageCached() {
+  if ('caches' in window) {
+    const currentPageUrl = window.location.href;
+    return caches.open('offline-pages').then(cache => {
+      return cache.match(currentPageUrl).then(response => {
+        return !!response; // Returns true if the page is cached, false otherwise
+      });
+    });
+  } else {
+    return Promise.resolve(false); // Cache API not supported
+  }
+}
+
+
+window.onload = () => {
+    isPageCached().then(cached => {
+        if (cached) {
+            console.log('Page is cached.');
+            document.getElementById('cache').innerHTML = 'Uncache';
+            document.getElementById('cache').onclick = remcache;
+        } else {
+            console.log('Page is not cached.');
+            document.getElementById('cache').innerHTML = 'Cache';
+            document.getElementById('cache').onclick = cache;
+        }
+    }).catch(error => {
+        console.error('Error checking if page is cached:', error);
+    });
+}
+
+if(localStorage.getItem('clicks')){
+    document.querySelector('.count').innerHTML = `💩 ${localStorage.getItem('clicks')} / ${localStorage.getItem('max') || 500} 💰 ${localStorage.getItem('money') || 0}`
+    document.querySelector('.bottom').style.fontSize = localStorage.getItem('clicks') + 'px';
+}
+
+
+if(localStorage.getItem('max')){
+    document.querySelector('#max').value = localStorage.getItem('max');
+}
+
+if(localStorage.getItem('lax')){
+  document.getElementById('laxtop').innerHTML = `Laxative (${localStorage.getItem('lax')})`;
+    if(params.get('l') != 'false'){
+        setInterval(() => {
+            params.get('le') != 'false' ? newParticle(localStorage.getItem('lax')) : update(localStorage.getItem('lax'));
+        }, 1000);
+    }else{
+      document.querySelector('#lax').checked = false;
+    }
+    const laxLvl = parseInt(localStorage.getItem('lax')) + 1 || 0;
+    document.getElementById('laxb').innerHTML = `Upgrade for ${laxLvl * 1000} 💰`;
+    console.log(document.getElementById('lax').innerHTML);
+}else{
+  document.getElementById('laxb').innerHTML = `Buy for 1000 💰`;
+}
+
+if(localStorage.getItem('increment')){
+    document.getElementById('inc').innerHTML = `Upgrade for ${(parseInt(localStorage.getItem('increment')) + 1 || 1) * 100} 💰`;
+    document.getElementById('inctp').innerHTML = `Increment (${localStorage.getItem('increment') || 1})`;
+}else{
+    document.getElementById('inc').innerHTML = `Buy for 100 💰`;
+}
+
+if(params.get('le') != 'false'){
+    document.querySelector('#lax2').checked = true;
+}else{
+    document.querySelector('#lax2').checked = false;
+}
+
+const newParticle = (a) => {
+    const particle = document.createElement('div');
+    const life = Math.random() * 10 + 1;
+    particle.classList.add('circle');
+    particle.classList.add('particle');
+    particle.style.animation = `a ${life}s`;
+    particle.style.animationIterationCount = '1'
+    particle.style.height = `${Math.random() * 20 + 40}px`;
+    particle.style.width = `${Math.random() * 20 + 20}px`;
+    particle.style.borderRadius = `${Math.random() * 100}vh`;
+    document.body.appendChild(particle);
+    let amount = 0
+    if(a) amount = a;
+    else if(localStorage.getItem('increment')) amount = localStorage.getItem('increment');
+    else amount = 1;
+    console.log(amount);
+    update(amount);
+    setTimeout(() => {
+        particle.remove();
+    }, life * 1000);
+}
+document.querySelectorAll('.top').forEach(e => {
+ e.onclick = () => {
+  console.log('click');
+    newParticle(localStorage.getItem('increment'));
+ }
+})
+</script>
